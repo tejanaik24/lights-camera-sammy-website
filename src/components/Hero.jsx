@@ -24,10 +24,18 @@ const Hero = () => {
   };
 
   useEffect(() => {
-    if (loadedVideos === totalVideos - 1) {
+    if (loadedVideos >= totalVideos - 1) {
       setLoading(false);
     }
   }, [loadedVideos]);
+
+  // Safety fallback for mobile networks/battery-saver mode
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleMiniVdClick = () => {
     setHasClicked(true);
@@ -83,9 +91,9 @@ const Hero = () => {
   const getVideoSrc = (index) => `videos/hero-${index}.mp4`;
 
   return (
-    <div className="relative h-dvh w-screen overflow-x-hidden">
+    <div className="relative h-dvh w-full overflow-hidden">
       {loading && (
-        <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50">
+        <div className="flex-center absolute z-[100] h-dvh w-full overflow-hidden bg-violet-50">
           {/* https://uiverse.io/G4b413l/tidy-walrus-92 */}
           <div className="three-body">
             <div className="three-body__dot"></div>
@@ -97,7 +105,7 @@ const Hero = () => {
 
       <div
         id="video-frame"
-        className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75"
+        className="relative z-10 h-dvh w-full overflow-hidden rounded-lg bg-blue-75"
       >
         <div>
           <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
@@ -111,6 +119,7 @@ const Hero = () => {
                   src={getVideoSrc((currentIndex % totalVideos) + 1)}
                   loop
                   muted
+                  playsInline
                   id="current-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
                   onLoadedData={handleVideoLoad}
@@ -124,6 +133,7 @@ const Hero = () => {
             src={getVideoSrc(currentIndex)}
             loop
             muted
+            playsInline
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
             onLoadedData={handleVideoLoad}
@@ -135,6 +145,7 @@ const Hero = () => {
             autoPlay
             loop
             muted
+            playsInline
             className="absolute left-0 top-0 size-full object-cover object-center"
             onLoadedData={handleVideoLoad}
           />

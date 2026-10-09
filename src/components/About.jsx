@@ -27,7 +27,7 @@ const About = () => {
   });
 
   return (
-    <div id="about" className="min-h-screen w-screen">
+    <div id="about" className="min-h-screen w-full overflow-hidden">
       <div className="relative mb-8 mt-36 flex flex-col items-center gap-5">
         <p className="font-general text-sm uppercase md:text-[10px]">
           Welcome to Sammy's World
@@ -46,13 +46,14 @@ const About = () => {
         </div>
       </div>
 
-      <div className="h-dvh w-screen" id="clip">
+      <div className="h-dvh w-full overflow-hidden" id="clip">
         <div className="mask-clip-path about-image">
           <video
             src="videos/about-session.mp4"
             autoPlay
             loop
             muted
+            playsInline
             className="absolute left-0 top-0 size-full object-cover"
           />
         </div>
